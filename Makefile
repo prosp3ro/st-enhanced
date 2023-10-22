@@ -7,10 +7,13 @@ include config.mk
 SRC = st.c x.c
 OBJ = $(SRC:.c=.o)
 
-all: st
+all: options st
 
-config.h:
-	cp config.def.h config.h
+options:
+	@echo st build options:
+	@echo "CFLAGS  = $(STCFLAGS)"
+	@echo "LDFLAGS = $(STLDFLAGS)"
+	@echo "CC      = $(CC)"
 
 .c.o:
 	$(CC) $(STCFLAGS) -c $<
@@ -24,12 +27,12 @@ st: $(OBJ)
 	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
 
 clean:
-	rm -f st $(OBJ) st-$(VERSION).tar.gz
+	rm -f st $(OBJ) st-$(VERSION).tar.gz *.rej *.orig *.o
 
 dist: clean
 	mkdir -p st-$(VERSION)
 	cp -R FAQ LEGACY TODO LICENSE Makefile README config.mk\
-		config.def.h st.info st.1 arg.h st.h win.h $(SRC)\
+		config.h st.info st.1 arg.h st.h win.h $(SRC)\
 		st-$(VERSION)
 	tar -cf - st-$(VERSION) | gzip > st-$(VERSION).tar.gz
 	rm -rf st-$(VERSION)
@@ -46,6 +49,8 @@ install: st
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/st
+	rm -f $(DESTDIR)$(PREFIX)/bin/st-copyout
+	rm -f $(DESTDIR)$(PREFIX)/bin/st-urlhandler
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/st.1
 
-.PHONY: all clean dist install uninstall
+.PHONY: all options clean dist install uninstall
