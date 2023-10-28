@@ -96,24 +96,32 @@ unsigned int tabspaces = 8;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	[0] = "#000000", /* hard contrast: #1d2021 / soft contrast: #32302f */
-	[1] = "#cc241d", /* red     */
-	[2] = "#98971a", /* green   */
-	[3] = "#d79921", /* yellow  */
-	[4] = "#458588", /* blue    */
-	[5] = "#b16286", /* magenta */
-	[6] = "#689d6a", /* cyan    */
-	[7] = "#a89984", /* white   */
+	"black",
+	"red3",
+	"green3",
+	"yellow3",
+	"blue2",
+	"magenta3",
+	"cyan3",
+	"gray90",
 
 	/* 8 bright colors */
-	[8]  = "#928374", /* black   */
-	[9]  = "#fb4934", /* red     */
-	[10] = "#b8bb26", /* green   */
-	[11] = "#fabd2f", /* yellow  */
-	[12] = "#83a598", /* blue    */
-	[13] = "#d3869b", /* magenta */
-	[14] = "#8ec07c", /* cyan    */
-	[15] = "#ebdbb2", /* white   */
+	"gray50",
+	"red",
+	"green",
+	"yellow",
+	"#5c5cff",
+	"magenta",
+	"cyan",
+	"white",
+
+	[255] = 0,
+
+	/* more colors can be added after 255 to use with DefaultXX */
+	"#cccccc",
+	"#555555",
+	"gray90", /* default foreground colour */
+	"black", /* default background colour */
 };
 
 
@@ -121,25 +129,10 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 15;
-unsigned int defaultbg = 0;
-unsigned int defaultcs = 15;
+unsigned int defaultfg = 258;
+unsigned int defaultbg = 259;
+unsigned int defaultcs = 256;
 static unsigned int defaultrcs = 257;
-unsigned int const currentBg = 6, buffSize = 2048;
-/// Enable double / triple click yanking / selection of word / line.
-int const mouseYank = 1, mouseSelect = 0;
-/// [Vim Browse] Colors for search results currently on screen.
-unsigned int const highlightBg = 160, highlightFg = 15;
-char const wDelS[] = "!\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~", wDelL[] = " \t";
-char *nmKeys [] = {              ///< Shortcusts executed in normal mode
-  "R/Building\nN", "r/Building\n", "X/juli@machine\nN", "x/juli@machine\n",
-  "Q?[Leaving vim, starting execution]\n","F/: error:\nN", "f/: error:\n", "DQf"
-};
-unsigned int const amountNmKeys = sizeof(nmKeys) / sizeof(*nmKeys);
-/// Style of the {command, search} string shown in the right corner (y,v,V,/)
-Glyph styleSearch = {' ', ATTR_ITALIC | ATTR_BOLD_FAINT, 7, 16};
-Glyph style[] = {{' ',ATTR_ITALIC|ATTR_FAINT,15,16}, {' ',ATTR_ITALIC,232,11},
-                 {' ', ATTR_ITALIC, 232, 4}, {' ', ATTR_ITALIC, 232, 12}};
 
 /*
  * Default shape of cursor
@@ -184,22 +177,30 @@ static uint forcemousemod = ShiftMask;
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
-	// { ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
-	// { XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
-	// { ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
-	// { XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
+	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
+	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
+	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
+	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
 };
 
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
+#define TERMMOD (ControlMask|ShiftMask)
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
-	{ MODKEY|ShiftMask,     XK_K,           zoom,           {.f = +1} },
-	{ MODKEY|ShiftMask,     XK_J,           zoom,           {.f = -1} },
-	{ MODKEY,               XK_c,           clipcopy,       {.i =  0} },
-	{ MODKEY,               XK_v,           clippaste,      {.i =  0} },
-	{ MODKEY,               XK_x,           normalMode,     {.i =  0} },
+	{ XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
+	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
+	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
+	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
+	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
+	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
+	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
+	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
+	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
+	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 };
 
 /*
