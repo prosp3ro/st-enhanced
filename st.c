@@ -1955,87 +1955,87 @@ strhandle(void)
 	strparse();
 	par = (narg = strescseq.narg) ? atoi(strescseq.args[0]) : 0;
 
-	switch (strescseq.type) {
-	case ']': /* OSC -- Operating System Command */
-		switch (par) {
-		case 0:
-			if (narg > 1) {
-				xsettitle(strescseq.args[1]);
-				xseticontitle(strescseq.args[1]);
-			}
-			return;
-		case 1:
-			if (narg > 1)
-				xseticontitle(strescseq.args[1]);
-			return;
-		case 2:
-			if (narg > 1)
-				xsettitle(strescseq.args[1]);
-			return;
-		case 52:
-			if (narg > 2 && allowwindowops) {
-				dec = base64dec(strescseq.args[2]);
-				if (dec) {
-					xsetsel(dec);
-					xclipcopy();
-				} else {
-					fprintf(stderr, "erresc: invalid base64\n");
-				}
-			}
-			return;
-		case 10:
-		case 11:
-		case 12:
-			if (narg < 2)
-				break;
-			p = strescseq.args[1];
-			if ((j = par - 10) < 0 || j >= LEN(osc_table))
-				break; /* shouldn't be possible */
+	// switch (strescseq.type) {
+	// case ']': /* OSC -- Operating System Command */
+	// 	switch (par) {
+	// 	case 0:
+	// 		if (narg > 1) {
+	// 			xsettitle(strescseq.args[1]);
+	// 			xseticontitle(strescseq.args[1]);
+	// 		}
+	// 		return;
+	// 	case 1:
+	// 		if (narg > 1)
+	// 			xseticontitle(strescseq.args[1]);
+	// 		return;
+	// 	case 2:
+	// 		if (narg > 1)
+	// 			xsettitle(strescseq.args[1]);
+	// 		return;
+	// 	case 52:
+	// 		if (narg > 2 && allowwindowops) {
+	// 			dec = base64dec(strescseq.args[2]);
+	// 			if (dec) {
+	// 				xsetsel(dec);
+	// 				xclipcopy();
+	// 			} else {
+	// 				fprintf(stderr, "erresc: invalid base64\n");
+	// 			}
+	// 		}
+	// 		return;
+	// 	case 10:
+	// 	case 11:
+	// 	case 12:
+	// 		if (narg < 2)
+	// 			break;
+	// 		p = strescseq.args[1];
+	// 		if ((j = par - 10) < 0 || j >= LEN(osc_table))
+	// 			break; /* shouldn't be possible */
 
-			if (!strcmp(p, "?")) {
-				osc_color_response(par, osc_table[j].idx, 0);
-			} else if (xsetcolorname(osc_table[j].idx, p)) {
-				fprintf(stderr, "erresc: invalid %s color: %s\n",
-				        osc_table[j].str, p);
-			} else {
-				tfulldirt();
-			}
-			return;
-		case 4: /* color set */
-			if (narg < 3)
-				break;
-			p = strescseq.args[2];
-			/* FALLTHROUGH */
-		case 104: /* color reset */
-			j = (narg > 1) ? atoi(strescseq.args[1]) : -1;
+	// 		if (!strcmp(p, "?")) {
+	// 			osc_color_response(par, osc_table[j].idx, 0);
+	// 		} else if (xsetcolorname(osc_table[j].idx, p)) {
+	// 			fprintf(stderr, "erresc: invalid %s color: %s\n",
+	// 			        osc_table[j].str, p);
+	// 		} else {
+	// 			tfulldirt();
+	// 		}
+	// 		return;
+	// 	case 4: /* color set */
+	// 		if (narg < 3)
+	// 			break;
+	// 		p = strescseq.args[2];
+	// 		/* FALLTHROUGH */
+	// 	case 104: /* color reset */
+	// 		j = (narg > 1) ? atoi(strescseq.args[1]) : -1;
 
-			if (p && !strcmp(p, "?")) {
-				osc_color_response(j, 0, 1);
-			} else if (xsetcolorname(j, p)) {
-				if (par == 104 && narg <= 1) {
-					xloadcols();
-					return; /* color reset without parameter */
-				}
-				fprintf(stderr, "erresc: invalid color j=%d, p=%s\n",
-				        j, p ? p : "(null)");
-			} else {
-				/*
-				 * TODO if defaultbg color is changed, borders
-				 * are dirty
-				 */
-				tfulldirt();
-			}
-			return;
-		}
-		break;
-	case 'k': /* old title set compatibility */
-		xsettitle(strescseq.args[0]);
-		return;
-	case 'P': /* DCS -- Device Control String */
-	case '_': /* APC -- Application Program Command */
-	case '^': /* PM -- Privacy Message */
-		return;
-	}
+	// 		if (p && !strcmp(p, "?")) {
+	// 			osc_color_response(j, 0, 1);
+	// 		} else if (xsetcolorname(j, p)) {
+	// 			if (par == 104 && narg <= 1) {
+	// 				xloadcols();
+	// 				return; /* color reset without parameter */
+	// 			}
+	// 			fprintf(stderr, "erresc: invalid color j=%d, p=%s\n",
+	// 			        j, p ? p : "(null)");
+	// 		} else {
+	// 			/*
+	// 			 * TODO if defaultbg color is changed, borders
+	// 			 * are dirty
+	// 			 */
+	// 			tfulldirt();
+	// 		}
+	// 		return;
+	// 	}
+	// 	break;
+	// case 'k': /* old title set compatibility */
+	// 	xsettitle(strescseq.args[0]);
+	// 	return;
+	// case 'P': /* DCS -- Device Control String */
+	// case '_': /* APC -- Application Program Command */
+	// case '^': /* PM -- Privacy Message */
+	// 	return;
+	// }
 
 	fprintf(stderr, "erresc: unknown str ");
 	strdump();
