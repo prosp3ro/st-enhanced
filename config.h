@@ -191,16 +191,18 @@ static MouseShortcut mshortcuts[] = {
 static char *copyoutput[] = { "/bin/sh", "-c", "st-copyout", "externalpipe", NULL };
 
 static Shortcut shortcuts[] = {
-    /* mask                     keysym          function        argument */
-    { MODKEY|ShiftMask,         XK_K,           zoom,           {.f = +1} },
-    { MODKEY|ShiftMask,         XK_J,           zoom,           {.f = -1} },
-    // { ControlMask|ShiftMask,    XK_c,           clipcopy,       {.i =  0} },
-    { MODKEY,                   XK_v,           clippaste,      {.i =  0} },
-    { MODKEY,                   XK_k,           kscrollup,      {.i =  2} },
-    { MODKEY,                   XK_j,           kscrolldown,    {.i =  2} },
-    { MODKEY,                   XK_u,           kscrollup,      {.i = -1} },
-    { MODKEY,                   XK_d,           kscrolldown,    {.i = -1} },
-    { MODKEY|ShiftMask,         XK_o,           externalpipe,   {.v = copyoutput } },
+    /* mask                     keysym             function        argument */
+    { MODKEY|ShiftMask,         XK_K,              zoom,           {.f = +1} },
+    { MODKEY|ShiftMask,         XK_J,              zoom,           {.f = -1} },
+    // { ControlMask|ShiftMask,    XK_c,              clipcopy,       {.i =  0} },
+    { MODKEY,                   XK_v,              clippaste,      {.i =  0} },
+    // { MODKEY,                   XK_k,              kscrollup,      {.i =  2} },
+    // { MODKEY,                   XK_j,              kscrolldown,    {.i =  2} },
+    { MODKEY,                   XK_bracketleft,    kscrollup,      {.i =  2} },
+    { MODKEY,                   XK_bracketright,   kscrolldown,    {.i =  2} },
+    { MODKEY,                   XK_u,              kscrollup,      {.i = -1} },
+    { MODKEY,                   XK_d,              kscrolldown,    {.i = -1} },
+    { MODKEY|ShiftMask,         XK_o,              externalpipe,   {.v = copyoutput } },
 };
 
 /*
