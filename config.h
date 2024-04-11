@@ -5,14 +5,14 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "JetBrains Mono:pixelsize=13:antialias=true:autohint=true";
+static char *font = "JetBrains Mono:pixelsize=12:antialias=true:autohint=true";
 // static char *font = "Liberation Mono:pixelsize=14:antialias=true:autohint=true";
 // static char *font = "mono:pixelsize=14:antialias=true:autohint=true";
 /* Spare fonts */
 static char *font2[] = {
     // "Inconsolata for Powerline:pixelsize=14:antialias=true:autohint=true",
-    "Hack Nerd Font Mono:pixelsize=13:antialias=true:autohint=true",
-    "NotoColorEmoji:pixelsize=13:antialias=true:autohint=true",
+    "Hack Nerd Font Mono:pixelsize=12:antialias=true:autohint=true",
+    "NotoColorEmoji:pixelsize=12:antialias=true:autohint=true",
 };
 
 static int borderpx = 2;
@@ -192,8 +192,8 @@ static char *copyoutput[] = { "/bin/sh", "-c", "st-copyout", "externalpipe", NUL
 
 static Shortcut shortcuts[] = {
     /* mask                     keysym             function        argument */
-    { MODKEY|ShiftMask,         XK_K,              zoom,           {.f = +1} },
-    { MODKEY|ShiftMask,         XK_J,              zoom,           {.f = -1} },
+    { MODKEY,                   XK_equal,          zoom,           {.f = +1} },
+    { MODKEY,                   XK_minus,          zoom,           {.f = -1} },
     // { ControlMask|ShiftMask,    XK_c,              clipcopy,       {.i =  0} },
     { MODKEY,                   XK_v,              clippaste,      {.i =  0} },
     // { MODKEY,                   XK_k,              kscrollup,      {.i =  2} },
