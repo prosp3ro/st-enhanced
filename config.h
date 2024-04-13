@@ -192,12 +192,12 @@ static char *copyoutput[] = { "/bin/sh", "-c", "st-copyout", "externalpipe", NUL
 
 static Shortcut shortcuts[] = {
     /* mask                     keysym             function        argument */
-    { MODKEY,                   XK_equal,          zoom,           {.f = +1} },
-    { MODKEY,                   XK_minus,          zoom,           {.f = -1} },
-    // { ControlMask|ShiftMask,    XK_c,              clipcopy,       {.i =  0} },
-    { MODKEY,                   XK_v,              clippaste,      {.i =  0} },
-    // { MODKEY,                   XK_k,              kscrollup,      {.i =  2} },
-    // { MODKEY,                   XK_j,              kscrolldown,    {.i =  2} },
+    // { MODKEY,                   XK_equal,          zoom,           {.f = +1} },
+    // { MODKEY,                   XK_minus,          zoom,           {.f = -1} },
+    { MODKEY|ShiftMask,         XK_F,              zoom,           {.f = +1} },
+    { MODKEY|ShiftMask,         XK_B,              zoom,           {.f = -1} },
+    { MODKEY|ShiftMask,         XK_C,              clipcopy,       {.i =  0} },
+    { MODKEY|ShiftMask,         XK_V,              clippaste,      {.i =  0} },
     { MODKEY,                   XK_u,              kscrollup,      {.i =  3} },
     { MODKEY,                   XK_d,              kscrolldown,    {.i =  3} },
     { MODKEY|ShiftMask,         XK_U,              kscrollup,      {.i = -1} },
