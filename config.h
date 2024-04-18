@@ -15,7 +15,7 @@ static char *font2[] = {
     "NotoColorEmoji:pixelsize=12:antialias=true:autohint=true",
 };
 
-static int borderpx = 2;
+static int borderpx = 1;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -197,7 +197,7 @@ static Shortcut shortcuts[] = {
     { MODKEY|ShiftMask,         XK_F,              zoom,           {.f = +1} },
     { MODKEY|ShiftMask,         XK_B,              zoom,           {.f = -1} },
     { MODKEY|ShiftMask,         XK_C,              clipcopy,       {.i =  0} },
-    { MODKEY|ShiftMask,         XK_V,              clippaste,      {.i =  0} },
+    { MODKEY,                   XK_v,              clippaste,      {.i =  0} },
     { MODKEY,                   XK_u,              kscrollup,      {.i =  3} },
     { MODKEY,                   XK_d,              kscrolldown,    {.i =  3} },
     { MODKEY|ShiftMask,         XK_U,              kscrollup,      {.i = -1} },
