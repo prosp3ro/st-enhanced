@@ -103,7 +103,7 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 1;
+float alpha = 0.91;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -192,10 +192,10 @@ static char *copyoutput[] = { "/bin/sh", "-c", "st-copyout", "externalpipe", NUL
 
 static Shortcut shortcuts[] = {
     /* mask                     keysym             function        argument */
-    // { MODKEY,                   XK_equal,          zoom,           {.f = +1} },
-    // { MODKEY,                   XK_minus,          zoom,           {.f = -1} },
-    { MODKEY|ShiftMask,         XK_F,              zoom,           {.f = +1} },
-    { MODKEY|ShiftMask,         XK_B,              zoom,           {.f = -1} },
+    { MODKEY,                   XK_equal,          zoom,           {.f = +1} },
+    { MODKEY,                   XK_minus,          zoom,           {.f = -1} },
+    // { MODKEY|ShiftMask,         XK_F,              zoom,           {.f = +1} },
+    // { MODKEY|ShiftMask,         XK_B,              zoom,           {.f = -1} },
     { MODKEY|ShiftMask,         XK_C,              clipcopy,       {.i =  0} },
     { MODKEY,                   XK_v,              clippaste,      {.i =  0} },
     { MODKEY,                   XK_u,              kscrollup,      {.i =  3} },
